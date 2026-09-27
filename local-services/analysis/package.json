@@ -1,0 +1,9 @@
+{
+  "name": "liao-ji-analysis",
+  "version": "1.0.0",
+  "private": true,
+  "description": "聊机·聊天记录分析 - 本地聊天记录可视化与 AI 分析工具",
+  "scripts": {
+    "dev": "node server.js"
+  }
+}

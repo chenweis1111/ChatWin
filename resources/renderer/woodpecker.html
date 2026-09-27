@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: transparent; overflow: hidden; }
+  body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
+  #wrap { display: flex; align-items: center; padding: 6px 10px 6px 2px; }
+  #orb {
+    width: 26px; height: 26px; flex: none; border-radius: 50%;
+    background: linear-gradient(135deg, #4f7cff, #9b5cff);
+    box-shadow: 0 0 10px rgba(122, 102, 255, .8), 0 0 22px rgba(79, 124, 255, .4);
+    animation: breathe 2.2s ease-in-out infinite;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #orb::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.9); }
+  @keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+  #orb.busy { animation: spinPulse .8s ease-in-out infinite; }
+  @keyframes spinPulse { 0%,100% { transform: scale(1) rotate(0deg); border-radius: 50%; } 50% { transform: scale(1.25) rotate(180deg); border-radius: 30%; } }
+  #bubble {
+    margin-left: 10px;
+    background: rgba(255,255,255,.94); border: 1px solid #c9d4ff; border-radius: 12px;
+    padding: 6px 12px; max-width: 240px; box-shadow: 0 2px 12px rgba(98, 102, 255, .18);
+    position: relative;
+  }
+  #bubble::before {
+    content: ''; position: absolute; left: -7px; top: 18px; width: 12px; height: 12px;
+    background: inherit; border-left: 1px solid #c9d4ff; border-bottom: 1px solid #c9d4ff;
+    transform: rotate(45deg);
+  }
+  #state { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px;
+    background: linear-gradient(90deg, #4f7cff, #9b5cff);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #dot { width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #4f7cff, #9b5cff); display: inline-block; }
+  #state.busy #dot { animation: blink .7s infinite alternate; }
+  @keyframes blink { from{opacity:.35} to{opacity:1} }
+  #reply { font-size: 12px; color: #666; margin-top: 3px; line-height: 1.4; max-height: 34px; overflow: hidden; word-break: break-all; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="orb"></div>
+  <div id="bubble">
+    <div id="state"><span id="dot"></span><span id="stateText">正在查看</span></div>
+    <div id="reply">待机中…</div>
+  </div>
+</div>
+<script>
+  const orb = document.getElementById('orb');
+  const stateBox = document.getElementById('state');
+  const stateText = document.getElementById('stateText');
+  const replyEl = document.getElementById('reply');
+
+  let lastAt = '';
+  async function poll() {
+    try {
+      const r = await fetch('http://127.0.0.1:7200/woodpecker/status');
+      const j = await r.json();
+      const b = (j && j.body) || {};
+      const busy = b.state === '回复中';
+      orb.className = busy ? 'busy' : '';
+      stateBox.className = busy ? 'busy' : '';
+      stateText.textContent = busy ? '正在回复' : '正在查看';
+      if (b.reply && b.at !== lastAt) {
+        lastAt = b.at;
+      }
+      replyEl.textContent = b.step || (b.engine_active ? '观察对话中…' : '待机中…');
+    } catch (e) {
+      stateText.textContent = '服务未连接';
+      replyEl.textContent = '本地 AI 服务离线';
+    }
+  }
+  poll();
+  setInterval(poll, 1500);
+</script>
+</body>
+</html>

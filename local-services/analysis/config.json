@@ -1,0 +1,15 @@
+{
+  "default": "deepseek",
+  "providers": {
+    "deepseek": {
+      "apiKey": "",
+      "endpoint": "https://your-endpoint.example.com/v1/chat/completions",
+      "model": "deepseek-chat"
+    },
+    "doubao": {
+      "apiKey": "",
+      "endpoint": "https://your-endpoint.example.com/v1/chat/completions",
+      "model": "doubao-seed-evolving-latest-version"
+    }
+  }
+}

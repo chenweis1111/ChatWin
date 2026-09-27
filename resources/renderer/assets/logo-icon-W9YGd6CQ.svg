@@ -1,0 +1,13 @@
+<svg width="232" height="232" viewBox="0 0 232 232" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- 聊机 Logo v2：极简线条气泡 + 星芒，stroke #8bc34a，fill:none -->
+<g stroke="#8bc34a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<!-- 气泡轮廓（圆角矩形） -->
+<rect x="35" y="58" width="162" height="107" rx="39"/>
+<!-- 左下小尾巴折线 -->
+<path d="M69 165 L46 204 L99 160"/>
+<!-- 一条对话线 -->
+<path d="M74 104 L138 104"/>
+<!-- 四角星芒 -->
+<path d="M178 29 L184 43 L198 49 L184 55 L178 69 L172 55 L158 49 L172 43 Z"/>
+</g>
+</svg>

@@ -1,0 +1,12 @@
+{
+  "name": "liaoji-local-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "聊机本地 AI 服务器：替代 api.shiflow.com 云端后端，RPA 零改动，AI 大脑接入自有 DeepSeek/豆包 API",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "engines": { "node": ">=18" }
+}

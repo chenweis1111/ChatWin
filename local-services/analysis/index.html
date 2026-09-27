@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>聊机 · 聊天记录分析</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">聊机</span>
+    <span class="subtitle">聊天记录分析</span>
+  </div>
+  <div class="settings">
+    <label for="providerSelect">AI 模型</label>
+    <select id="providerSelect">
+      <option value="deepseek">DeepSeek</option>
+      <option value="doubao">豆包 Doubao</option>
+    </select>
+    <span id="providerHint" class="hint"></span>
+  </div>
+</header>
+
+<main>
+  <!-- 数据加载 -->
+  <section class="card" id="loadSection">
+    <h2>① 加载聊天记录</h2>
+    <div id="dropZone" class="dropzone">
+      <p>将导出的 <code>.xls</code> 聊天记录文件拖拽到此处</p>
+      <p class="muted">或</p>
+      <div class="btn-row">
+        <label class="btn primary">
+          选择文件
+          <input type="file" id="fileInput" accept=".xls,.html,.htm" hidden>
+        </label>
+        <button class="btn" id="loadSampleBtn">加载示例数据</button>
+      </div>
+      <p class="muted small">解析完全在浏览器本地完成，聊天内容不会上传到任何服务器（仅你主动使用 AI 功能时发送所选批次）。</p>
+    </div>
+    <div id="loadStatus" class="status"></div>
+  </section>
+
+  <!-- 看板 -->
+  <section class="card hidden" id="dashboardSection">
+    <h2>② 可视化看板</h2>
+    <div class="stat-grid" id="statCards"></div>
+    <div class="chart-grid">
+      <div class="chart-box">
+        <h3>按天消息量</h3>
+        <div id="chartDaily" class="chart"></div>
+      </div>
+      <div class="chart-box">
+        <h3>每小时分布</h3>
+        <div id="chartHourly" class="chart"></div>
+      </div>
+      <div class="chart-box wide">
+        <h3>活跃联系人 Top 10</h3>
+        <div id="chartTop" class="chart"></div>
+      </div>
+    </div>
+
+    <h3 class="table-title">记录浏览 <span class="muted small" id="tableInfo"></span></h3>
+    <div class="table-controls">
+      <input type="search" id="tableSearch" placeholder="搜索内容 / 昵称 / 聊天名称…">
+      <select id="tableFilterType">
+        <option value="">全部类型</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table id="recordTable">
+        <thead>
+          <tr><th class="col-idx">#</th><th>类型</th><th>聊天名称</th><th>昵称</th><th class="col-content">内容</th><th>时间</th></tr>
+        </thead>
+        <tbody id="recordTbody"></tbody>
+      </table>
+    </div>
+    <div class="pager">
+      <button class="btn small" id="prevPage">上一页</button>
+      <span id="pageInfo"></span>
+      <button class="btn small" id="nextPage">下一页</button>
+    </div>
+  </section>
+
+  <!-- AI 总结 -->
+  <section class="card hidden" id="summarySection">
+    <h2>③ AI 总结</h2>
+    <div class="ai-controls">
+      <label>分析范围
+        <select id="summaryRange">
+          <option value="all">全部记录</option>
+        </select>
+      </label>
+      <button class="btn primary" id="runSummaryBtn">开始 AI 总结</button>
+    </div>
+    <div class="progress hidden" id="summaryProgress">
+      <div class="bar"><div class="fill" id="summaryBar"></div></div>
+      <span id="summaryProgressText"></span>
+    </div>
+    <div class="ai-result markdown hidden" id="summaryResult"></div>
+  </section>
+
+  <!-- 意图筛选 -->
+  <section class="card hidden" id="intentSection">
+    <h2>④ 意图筛选</h2>
+    <div class="ai-controls">
+      <input type="text" id="intentInput" placeholder="输入意图描述，如：询价、投诉、售后、催发货…">
+      <button class="btn primary" id="runIntentBtn">开始筛选</button>
+      <button class="btn hidden" id="exportCsvBtn">导出筛选结果 CSV</button>
+    </div>
+    <div class="progress hidden" id="intentProgress">
+      <div class="bar"><div class="fill" id="intentBar"></div></div>
+      <span id="intentProgressText"></span>
+    </div>
+    <div id="intentStats" class="status"></div>
+    <div class="table-wrap hidden" id="intentTableWrap">
+      <table>
+        <thead>
+          <tr><th class="col-idx">#</th><th>类型</th><th>聊天名称</th><th>昵称</th><th class="col-content">内容</th><th>时间</th></tr>
+        </thead>
+        <tbody id="intentTbody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer class="footer muted small">
+  聊机 · 聊天记录分析 — 本地运行，密钥仅存于服务端 config.json，浏览器不可见。
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

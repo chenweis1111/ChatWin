@@ -1,0 +1,27 @@
+{
+  "server": {
+    "port": 7200,
+    "host": "0.0.0.0"
+  },
+  "llm": {
+    "deepseek": {
+      "api_key": "",
+      "endpoint": "https://your-endpoint.example.com/v1/chat/completions",
+      "model": "deepseek-chat"
+    },
+    "doubao": {
+      "api_key": "",
+      "endpoint": "https://your-endpoint.example.com/v1/chat/completions",
+      "model": "doubao-seed-evolving-latest-version",
+      "model_vision": "doubao-seed-evolving-latest-version",
+      "model_text": "ep-20260917021435-2j9f2",
+      "model_fallback": "ep-20260917101122-fdl9b"
+    }
+  },
+  "think_with_deepseek": true,
+  "save_screenshots": false,
+  "forbid_reply_when_last_is_ours": true,
+  "watchdog_enabled": false,
+  "sync_enabled": false,
+  "catalog_url": ""
+}
